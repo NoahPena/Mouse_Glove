@@ -45,6 +45,10 @@ void setup() {
 
 // the loop routine runs over and over again forever:
 void loop() {
+  int thumb = analogRead(A2);
+  if(thumb >= 737)
+  { 
+  //Serial.println("\t\t\tThumb: " + String(thumb));
   
   //accelgyro.getAcceleration(&ax, &ay, &az);
   // read the input on analog pin 0:
@@ -55,13 +59,13 @@ void loop() {
   //Serial.print("Middle Finger: ");
   if((indexFinger < 525) && (middleFinger >= 500))
   {
-     //Serial.println("C1");
+     Serial.println("C1");
   } else if((indexFinger >= 525) && (middleFinger >= 500))
   {
-     //Serial.println("C0");
+     Serial.println("C0");
   } else if((indexFinger >= 525) && (middleFinger < 500))
   {
-   //Serial.println("C2"); 
+   Serial.println("C2"); 
   }
   
   if(firstTime)
@@ -85,6 +89,7 @@ for(int i = 0; i < 10; i++)
   accelgyro.getAcceleration(&ax, &ay, &az);
   average = ax;
   averageY = az;
+  //Serial.println("\t\tAverageZ: " + String(az));
   
   //average /= 10;
   
@@ -98,27 +103,30 @@ for(int i = 0; i < 10; i++)
   ax = (ax - average);
   
   az = (az - averageY);
-  
-  if(ax < -350)
+  //Serial.println("AZ: " + String(az) + "\tAverageZ: " + String(average));
+  if(ax < -400)
   {
-   //Serial.println("L" + String(ax)); 
-  } else if(ax > 350) 
+   Serial.println("L" + String(ax)); 
+  } else if(ax > 400) 
   {
-    //Serial.println("R" + String(ax));
+    Serial.println("R" + String(ax));
   }  else {
-     //Serial.println("S" );
+     Serial.println("S" );
   }
   
-  if(az < -200)
+  if(az < 6000)
   {
-   Serial.println("U" + String(ay)); 
-  } else if(az > 200)
+   Serial.println("U" + String(az)); 
+  } else if(az > 9000)
   {
-   Serial.println("D" + String(ay)); 
-  } else {
+   Serial.println("D" + String(az)); 
+  } else if(az < -2000) {
    Serial.println("S"); 
+  } else {
+    Serial.println("S");
   }
   
+ // firstTime = true;
   if(almightyCounter == 10)
   {
    //firstTime = true; 
@@ -141,5 +149,6 @@ for(int i = 0; i < 10; i++)
   Serial.print("Index Finger: ");
   Serial.println(indexFinger);
   */
+  }
   delay(100);        // delay in between reads for stability
 }
